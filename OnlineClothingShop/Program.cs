@@ -18,7 +18,7 @@ IConfigurationSection databaseSection = configuration.GetSection("DatabaseOption
 builder.Services.Configure<DatabaseOptions>(databaseSection);
 
 //Dependecy Injection
-builder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
+//builder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();

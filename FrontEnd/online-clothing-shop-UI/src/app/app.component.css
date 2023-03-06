@@ -1,0 +1,10 @@
+user-input {
+    align-items: flex-start;
+}
+
+password-input{
+    align-items: flex-start;
+}
+buttons  {
+    padding-top: 5;
+}

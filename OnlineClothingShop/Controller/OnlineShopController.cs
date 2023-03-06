@@ -3,7 +3,6 @@
 namespace OnlineClothingShop.Controllers
 {
     [Controller]
-    [Route("api/[controller]")]
     public class OnlineShopController : Controller
     {
 
