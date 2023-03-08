@@ -2,14 +2,15 @@ import { useState } from "react";
 import Product from "./Product";
 import { GoHeart, GoX } from 'react-icons/go';
 
-function ProductView({ name, price, handleImageClick, disc, isAdmin, handleClickDelete }) {
+function ProductView({ name, price, handleImageClick, disc, isAdmin, onHandleDelete }) {
 
     const [hoverWishlist, setHoverWishlist] = useState(false);
     const [hoverDelete, setHoverDelete] = useState(false);
     const [showProduct, setShowProduct] = useState(false);
 
     const onClickDelete = () => {
-        handleClickDelete(name);
+        console.log(name);
+        onHandleDelete(name);
     }
 
     let content;

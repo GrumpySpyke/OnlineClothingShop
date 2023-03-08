@@ -2,7 +2,7 @@ import Product from "./Product"
 import ProductView from "./ProductView";
 import { useEffect, useState } from "react";
 import { GoX } from "react-icons/go";
-function ProductList({ sex, filters, refreshed,isAdmin}) {
+function ProductList({ sex, filters, refreshed, isAdmin }) {
 
     const filtersssss = {
         marca: "",
@@ -75,15 +75,37 @@ function ProductList({ sex, filters, refreshed,isAdmin}) {
             { name: "Pantaloni H&M barbati", sex: "M", marca: "Burberry", category: "pant", price: "300", disc: false },
             { name: "Boxeri Pull&Bear barbati", sex: "M", marca: "Burberry", category: "boxeri", price: "300", disc: false }];
             break;
+        case "R":
+            products = [{ name: "Tricou gucci barbati", marca: "Gucci", category: "tricou", sex: "M", price: "300", disc: true },
+            { name: "Hanorac Chanel barbati", sex: "M", marca: "Chanel", category: "hanorac", price: "300", disc: true },
+            { name: "Geaca Burberry barbati", sex: "M", marca: "Burberry", category: "geaca", price: "300", disc: true },
+            { name: "Sosete Zara barbati", sex: "M", marca: "Burberry", category: "sosete", price: "300", category: "", disc: true },
+            { name: "Pulover H&M barbati", sex: "M", marca: "", category: "pulover", price: "300", disc: true },
+            { name: "Tricou Pull&Bear barbati", sex: "M", marca: "Burberry", category: "tricou", price: "300", disc: true },
+            { name: "Camasa gucci barbati", sex: "M", marca: "Burberry", category: "camasa", price: "200", disc: true },
+            { name: "Caciula Chanel barbati", sex: "M", marca: "Burberry", category: "caciula", price: "300", disc: true },
+            { name: "Manusi Burberry barbati", sex: "M", marca: "Burberry", category: "manusi", price: "300", disc: true },
+            { name: "Adiasi Zara barbati", sex: "M", marca: "Burberry", category: "incaltari", price: "300", disc: true },
+            { name: "Pantaloni H&M barbati", sex: "M", marca: "Burberry", category: "pant", price: "300", disc: true },
+            { name: "Boxeri Pull&Bear barbati", sex: "M", marca: "Burberry", category: "boxeri", price: "300", disc: true }];
+            break;
 
     }
 
     const handleImgClick = () => {
         setShowProduct(true);
     }
-    
-    const onHandleDelete=(name)=>{
-        
+
+    const onHandleDelete = (name) => {
+        console.log("aici")
+        products=products.filter((product) => {
+            console.log(product);
+            console.log(product.name!=name)
+            return product.name!=name;
+
+        })
+
+        console.log(products);
     }
 
     if (showProduct) {
@@ -96,7 +118,7 @@ function ProductList({ sex, filters, refreshed,isAdmin}) {
                         onClick={closeProduct}>
                         <GoX size={50} className="top" />
                     </button>
-                    <Product name="Placeholder" price="300" onClose={closeProduct}/>
+                    <Product name="Placeholder" price="300" onClose={closeProduct} />
                 </div>
             </div>
         </div>
@@ -104,13 +126,13 @@ function ProductList({ sex, filters, refreshed,isAdmin}) {
 
     if (!showProduct) {
         displayProducts = products.map((product, key) => {
-            return <ProductView name={product.name} 
-            price={product.price} 
-            disc={product.disc} 
-            key={key} 
-            onImgClick={handleImgClick} 
-            isAdmin={isAdmin} 
-            onHandleDelete={onHandleDelete}/>
+            return <ProductView name={product.name}
+                price={product.price}
+                disc={product.disc}
+                key={key}
+                handleImageClick={handleImgClick}
+                isAdmin={isAdmin}
+                onHandleDelete={onHandleDelete} />
         })
         displayProduct = null;
     }

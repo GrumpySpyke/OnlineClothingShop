@@ -21,7 +21,7 @@ function MainPage({ onLogOut }) {
     let content;
     switch (page) {
         case "mainpage":
-            content=<MainPageContent/>
+            content=<ProductList sex="R" filters={["",""]} isAdmin={isAdmin}/>
             break;
         case "men":
             content=<ProductList sex="M" filters={["",""]} isAdmin={isAdmin}/>

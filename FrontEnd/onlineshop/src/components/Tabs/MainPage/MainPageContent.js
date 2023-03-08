@@ -1,6 +1,7 @@
-
+import ProductList from "../Products/ProductList"
 
 function MainPageContent() {
+
 
     const offersMen = [{ name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 },
     { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 },
@@ -12,23 +13,7 @@ function MainPageContent() {
     { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 },
     { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 }, { name: "Oferta1", price: 159 }]
     return <>
-        <ul>
-            <li>
-                <div className="slide-menu">
-    
-                </div>
-            </li>
-            <li>
-                <div className="slide-menu">
-                </div>
-            </li>
-
-            <li>
-                <div className="slide-menu">
-                </div>
-            </li>
-
-        </ul>
+      <ProductList sex="M" filters={["",""]}/>
 
     </>
 }
