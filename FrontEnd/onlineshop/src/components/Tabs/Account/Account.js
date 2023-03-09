@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import {RiAccountCircleLine} from "react-icons/ri";
 function Account() {
     const [editPassword, setEditPassword] = useState(false);
     const [editInfo, setEditInfo] = useState(false);

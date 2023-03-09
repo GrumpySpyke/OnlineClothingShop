@@ -8,50 +8,99 @@ import Contact from "./Tabs/Contact/Contact"
 import Wishlist from "./Tabs/Wishlist/Wishlist";
 import Admin from "./Tabs/Admin/Admin";
 import MainPageContent from "./Tabs/MainPage/MainPageContent";
+import { GetFilteredProducts } from "../services/database-client";
 function MainPage({ onLogOut }) {
 
     const [page, setPage] = useState("mainpage");
+    const [filters, setFilters] = useState();
+    const [searchText,setSearchText]=useState();
+    const isAdmin = true;
 
-    const isAdmin=true;
-
-    const onHandleNavigation =(page)=>{
+    const onHandleNavigation = (page, filters,searchText) => {
         setPage(page);
+        if (page === "searchFiltered") {
+            const f={
+                sex:filters[0],
+                category:filters[1],
+                brand:filters[2],
+                priceMin:filters[3],
+                priceMax:filters[4]
+            }
+
+            setFilters(f);
+
+        }
+        if(page=== "search"){
+            setSearchText(searchText);
+        }
+    }
+
+    let filterValues = {
+        sex: "R",
+        category: "",
+        brand: "",
+        priceMin: "",
+        priceMax: ""
     }
 
     let content;
+
     switch (page) {
         case "mainpage":
-            content=<ProductList sex="R" filters={["",""]} isAdmin={isAdmin}/>
+
+            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
             break;
         case "men":
-            content=<ProductList sex="M" filters={["",""]} isAdmin={isAdmin}/>
+            filterValues = {
+                sex: "M",
+                category: "",
+                brand: "",
+                priceMin: "",
+                priceMax: ""
+            }
+            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
             break;
         case "women":
-            content=<ProductList sex="F" filters={["",""]} isAdmin={isAdmin}/>
+            filterValues = {
+                sex: "F",
+                category: "",
+                brand: "",
+                priceMin: "",
+                priceMax: ""
+            }
+            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
             break;
         case "children":
-            content=<ProductList sex="C" filters={["",""]} isAdmin={isAdmin}/>
+            filterValues = {
+                sex: "C",
+                category: "",
+                brand: "",
+                priceMin: "",
+                priceMax: ""
+            }
+            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
             break;
         case "search":
-            
+            content = <ProductList pattern={searchText} isSearch={true} isAdmin={isAdmin} />
             break;
         case "searchFiltered":
 
+            content = <ProductList filters={filters} isSearchF={true} isAdmin={isAdmin} />
             break;
         case "wishlist":
-            content=<Wishlist/>
+            content = <Wishlist />
             break;
         case "basket":
-            content=<Basket/>
+            content = <Basket />
             break;
         case "account":
-            content=<Account/>
+            content = <Account />
             break;
         case "contact":
-            content=<Contact/>
+            content = <Contact />
             break;
         case "admin":
-            content=<Admin/>
+            content = <Admin />
     }
 
     return (

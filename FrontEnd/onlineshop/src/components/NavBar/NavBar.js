@@ -2,9 +2,9 @@ import { useState } from "react";
 import { GoListUnordered, GoSignOut, GoSearch } from "react-icons/go"
 import { BsFillCartCheckFill, BsFillTelephonePlusFill } from "react-icons/bs"
 import { MdAccountCircle } from "react-icons/md"
-import { RiAdminFill } from "react-icons/ri"
+import { RiAdminFill} from "react-icons/ri"
 import FilterOption from "./FilterOption";
-function NavBar({ onLogOut, onHandleNavigation, isAdmin }) {
+function NavBar({ onLogOut, onHandleNavigation, isAdmin}) {
 
   const [showAdmin, setShowAdmin] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -59,15 +59,17 @@ function NavBar({ onLogOut, onHandleNavigation, isAdmin }) {
   const onFilteredSearch = (event) => {
     event.preventDefault();
     const message = [event.target[0].value, event.target[1].value, event.target[2].value, event.target[3].value, event.target[4].value]
-    console.log(message);
+
     setShowFilters(false);
-    onHandleNavigation("searchFiltered")
+    
+    onHandleNavigation("searchFiltered",message);
+
   }
 
   const onSearch =(event)=>{
     event.preventDefault()
-    console.log(searchText)
-    onHandleNavigation("search")
+
+    onHandleNavigation("search",undefined,searchText);
   }
   adminContent = <li>
     <button style={{
