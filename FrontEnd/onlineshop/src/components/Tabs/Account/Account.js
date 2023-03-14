@@ -1,14 +1,28 @@
 import { useState } from "react";
-import {RiAccountCircleLine} from "react-icons/ri";
+import { RiAccountCircleLine } from "react-icons/ri";
+import OrderEntry from "./OrderEntry";
+import Moment from "moment";
+import OrderPage from "./OrderPage";
+import ReturnPage from "./ReturnPage";
 function Account() {
     const [editPassword, setEditPassword] = useState(false);
     const [editInfo, setEditInfo] = useState(false);
+    const [showOrders, setShowOrders] = useState(false);
+    const [showOrder,setShowOrder] = useState(false);
+    const [showReturnOrder,setShowReturnOrder]=useState(false);
+    const [currentOrder,setCurrentOrder] = useState();
 
     const [newPassword, setNewPassword] = useState("");
     const [repeatNewPassword, setRepeatNewPassword] = useState("");
     const [newEmail, setNewEmail] = useState("");
     const [newAdress, setNewAdress] = useState("")
     const [newPhone, setNewPhone] = useState("")
+    const orders = [{ id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"Delivering",contact:"074215215"},
+    { id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"Delivered",contact:"074215215"},
+    { id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"InDeposit",contact:"074215215"},
+    { id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"Returned",contact:"074215215"}]
+
+    //Functions
 
     const onClickApplyInfo = () => {
         setEditInfo(false);
@@ -17,6 +31,29 @@ function Account() {
     const onClickApplyPassword = () => {
         setEditPassword(false);
     }
+
+    const handleShowOrder=(order)=>{
+        setCurrentOrder(order);
+        setShowOrders(false);
+        setShowOrder(true);
+    }
+
+    const handleClickX=()=>{
+        setShowOrder(false);
+        setShowReturnOrder(false);
+        setShowOrders(false)
+    }
+
+    const handleShowReturnOrder=(order)=>{
+        setCurrentOrder(order)
+        setShowReturnOrder(true);
+
+    }
+
+    //Content
+    let returnOrderContent=null;
+    let ordersContent = null;
+    let orderContent = null;
 
     let passwordContent = <div>
         <button className="" onClick={() => setEditPassword(true)}>Edit Password</button>
@@ -41,17 +78,17 @@ function Account() {
         passwordContent = <div className="my-1">
             <div className="flex items-center">
                 <label>Parola noua: </label>
-                <input className="mx-24 border-2 border-solid" value={newPassword} onChange={(event) => setNewPassword(event.target.value)}></input>
+                <input className="ml-8 border-2 border-solid" value={newPassword} onChange={(event) => setNewPassword(event.target.value)}></input>
             </div>
-            <div className="flex items-center my-2 ">
+            <div className="flex items-center my-2 w-64">
                 <label>Reintroduceti parola: </label>
-                <input className=" mx-5 border-2 border-solid" value={repeatNewPassword} onChange={(event) => setRepeatNewPassword(event.target.value)}></input>
+                <input className=" ml-4 border-2 border-solid" value={repeatNewPassword} onChange={(event) => setRepeatNewPassword(event.target.value)}></input>
 
             </div>
             <div>
-                <button className="ml-60 mt-2 border-8 bg-green-500 w-24 border-green-500 text-blue-800"
+                <button className="ml-80 mr-2 mt-2 border-8 bg-green-500 w-36 border-green-500 text-blue-800"
                     onClick={() => onClickApplyPassword()}>Apply</button>
-                <button className="border-8 bg-red-500 w-24 border-red-500 text-white"
+                <button className="ml-2 border-8 bg-red-500 w-36 border-red-500 text-white"
                     onClick={() => setEditPassword(false)}>Cancel</button>
             </div>
         </div>
@@ -94,33 +131,72 @@ function Account() {
         </div>
     }
 
+    let buttonOrders = <button className="button is-primary" onClick={() => setShowOrders(!showOrders)}>Afisati comenzile</button>
 
-    return <div className="inline-flex">
-
-        <div className="text-xl py-6 ml-64">
-            <div className="flex items-center">
-                <label>Username:</label>
-                <label>theuser</label>
-            </div>
-            {passwordContent}
+    let accountContent = <div className="text-3xl py-5 mr-96">
+        <div className="flex items-center text-6xl mb-6">
+            <label>Username:</label>
+            <label>theuser</label>
         </div>
+        {passwordContent}
+        <div className="mt-64">
+            {buttonOrders}
 
+        </div>
+    </div>
 
-        <div className="py-6 ml-64 border-4 w-1/4">
-            <div className="">
-                <label className="text-4xl ">Informatii Personale</label>
-            </div>
-            <div className="mr-96 py-2">
-                <div className="ml-6 border-slate-300 border-8 mr-96 w-96">
-                    <div className="ml-4 mt-2">
-                        {emailContent}
-                        {adressContent}
-                        {phoneContent}
-                        {displayedButton}
-                    </div>
+    let personalContent = <div className="py-5 ml-64 w-1/4">
+        <div className="">
+            <label className="text-4xl ">Informatii Personale</label>
+        </div>
+        <div className="py-2">
+            <div className="ml-6 border-slate-300 border-8 mr-96 w-96">
+                <div className="ml-4 mt-2">
+                    {emailContent}
+                    {adressContent}
+                    {phoneContent}
+                    {displayedButton}
                 </div>
             </div>
         </div>
+    </div>
+
+
+    if (showOrders) {
+        ordersContent = orders.map((order) => {
+            return <div>
+                <OrderEntry order={order} handleShowOrder={handleShowOrder} handleShowReturnOrder={handleShowReturnOrder} />
+            </div>
+        })
+    }
+    if(showOrder){
+        accountContent=null;
+        personalContent=null;
+        ordersContent=null;
+        orderContent=<OrderPage order={currentOrder} handleClickX={handleClickX} />
+        returnOrderContent=null;
+    }
+
+    if(showReturnOrder){
+        accountContent=null;
+        personalContent=null;
+        ordersContent=null;
+        orderContent=null;
+        returnOrderContent=<ReturnPage order={currentOrder} handleClickX={handleClickX}/>;
+    }
+    ///Return
+    return <div>
+        <div className="inline-flex place-content-center border-8">
+
+            {accountContent}
+            {personalContent}
+
+        </div>
+        <div className="justify-center">
+        {ordersContent}
+        </div>
+        {orderContent}
+        {returnOrderContent}
     </div>
 }
 

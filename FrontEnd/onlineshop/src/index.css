@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
+.root{
+    background-color: #00947e;
+}
 .button,
 .file-cta,
 .file-name,

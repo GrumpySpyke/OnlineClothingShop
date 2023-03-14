@@ -6,6 +6,7 @@ import { GetFilteredProducts,GetSearchProduct } from "../../../services/database
 function ProductList({ filters, isAdmin, isSearch, isSearchF, pattern }) {
 
     const [showProduct, setShowProduct] = useState(false);
+    const [currentProduct,setCurrentProduct]=useState(false);
 
     // useEffect(()=>{
     //     setShowProduct(false);
@@ -108,7 +109,9 @@ function ProductList({ filters, isAdmin, isSearch, isSearchF, pattern }) {
         products = [{ name: "Tricou gucci barbati", marca: "Gucci", category: "tricou", sex: "M", price: "300", disc: true }];
     }
 
-    const handleImgClick = () => {
+    const handleImgClick = (product) => {
+        console.log(product);
+        setCurrentProduct(product);
         setShowProduct(true);
     }
 
@@ -134,7 +137,7 @@ function ProductList({ filters, isAdmin, isSearch, isSearchF, pattern }) {
                         onClick={closeProduct}>
                         <GoX size={50} className="top" />
                     </button>
-                    <Product name="Placeholder" price="300" onClose={closeProduct} />
+                    <Product product={currentProduct} onClose={closeProduct} isAdmin={isAdmin} />
                 </div>
             </div>
         </div>
@@ -144,9 +147,7 @@ function ProductList({ filters, isAdmin, isSearch, isSearchF, pattern }) {
 
 
         displayProducts = products.map((product, key) => {
-            return <ProductView name={product.name}
-                price={product.price}
-                disc={product.disc}
+            return <ProductView product={product}
                 key={key}
                 handleImageClick={handleImgClick}
                 isAdmin={isAdmin}

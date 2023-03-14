@@ -16,6 +16,10 @@ function MainPage({ onLogOut }) {
     const [searchText,setSearchText]=useState();
     const isAdmin = true;
 
+    const handleCloseBasket=()=>{
+        setPage("account");
+    }
+
     const onHandleNavigation = (page, filters,searchText) => {
         setPage(page);
         if (page === "searchFiltered") {
@@ -47,8 +51,15 @@ function MainPage({ onLogOut }) {
 
     switch (page) {
         case "mainpage":
-
+            filterValues = {
+                sex: "R",
+                category: "",
+                brand: "",
+                priceMin: "",
+                priceMax: ""
+            }
             content = <ProductList filters={filterValues} isAdmin={isAdmin} />
+            
             break;
         case "men":
             filterValues = {
@@ -91,7 +102,15 @@ function MainPage({ onLogOut }) {
             content = <Wishlist />
             break;
         case "basket":
-            content = <Basket />
+            let items = [{ name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 100, disc: true, size: "M" },
+            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 200, disc: false, size: "M" },
+            { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 400, disc: true, size: "M" },
+            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
+            { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 500, disc: true, size: "M" },
+            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
+            { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 600, disc: true, size: "M" },
+            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 700, disc: false, size: "M" }];
+            content = <Basket handleCloseBasket={handleCloseBasket} items={items}/>
             break;
         case "account":
             content = <Account />

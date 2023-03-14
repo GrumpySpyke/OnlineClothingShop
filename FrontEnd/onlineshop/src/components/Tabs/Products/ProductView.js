@@ -2,21 +2,20 @@ import { useState } from "react";
 import Product from "./Product";
 import { GoHeart, GoX } from 'react-icons/go';
 
-function ProductView({ name, price, handleImageClick, disc, isAdmin, onHandleDelete }) {
+function ProductView({ product,handleImageClick, isAdmin, onHandleDelete }) {
 
     const [hoverWishlist, setHoverWishlist] = useState(false);
     const [hoverDelete, setHoverDelete] = useState(false);
-    const [showProduct, setShowProduct] = useState(false);
 
     const onClickDelete = () => {
-        console.log(name);
-        onHandleDelete(name);
+        console.log(product.name);
+        onHandleDelete(product.name);
     }
 
     let content;
 
     let priceContent = <div>
-        <label style={{ float: "right" }}>{price} RON</label>
+        <label style={{ float: "right" }}>{product.price} RON</label>
     </div>
 
     let adminButton = <button
@@ -29,9 +28,9 @@ function ProductView({ name, price, handleImageClick, disc, isAdmin, onHandleDel
     if (!isAdmin) {
         adminButton = null;
     }
-    if (disc) {
+    if (product.disc) {
         priceContent = <div>
-            <label style={{ float: "right" }} className="text-red-500">{price} RON</label>
+            <label style={{ float: "right" }} className="text-red-500">{product.price} RON</label>
         </div>
     }
     content = <div className="book-show">
@@ -53,12 +52,12 @@ function ProductView({ name, price, handleImageClick, disc, isAdmin, onHandleDel
         </div>
         <img
             src="https://picsum.photos/seed/200/200"
-            onClick={handleImageClick}
+            onClick={()=>handleImageClick(product)}
             className="border-2 border-black"
         />
         <div className="mt-2">
             <label style={{ fontSize: 12, height: 75 }} />
-            {name}
+            {product.name}
             {priceContent}
         </div>
 

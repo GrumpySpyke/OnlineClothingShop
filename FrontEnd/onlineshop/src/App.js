@@ -78,12 +78,12 @@ function App() {
   //     {signUpContent}
   //   </div>
   // }, isSignedIn)
-  
+
   return (
-    <>
+    <div>
       {content}
       {signedInContent}
-    </>
+    </div>
   );
 }
 
