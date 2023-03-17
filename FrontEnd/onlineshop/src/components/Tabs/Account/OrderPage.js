@@ -4,7 +4,7 @@ function OrderPage({ order, handleClickX,isReturn}) {
 
     let cancelButtonContent = null;
 
-    const items = [{ name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 100, disc: true, size: "M" },
+    const products = [{ name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 100, disc: true, size: "M" },
     { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 200, disc: false, size: "M" },
     { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 400, disc: true, size: "M" },
     { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
@@ -13,7 +13,7 @@ function OrderPage({ order, handleClickX,isReturn}) {
     { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 600, disc: true, size: "M" },
     { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 700, disc: false, size: "M" }];
 
-    order.items = items;
+    order.products = products;
 
     const onClickX = () => {
         console.log(order);
@@ -25,7 +25,7 @@ function OrderPage({ order, handleClickX,isReturn}) {
     }
 
     
-    let orderContent = order.items.map((item) => {
+    let orderContent = order.products.map((item) => {
         return <BasketItem item={item} isReturn={false} isOrder={true}/>
     })
 
@@ -59,7 +59,7 @@ function OrderPage({ order, handleClickX,isReturn}) {
                             Adresa: {order.adress}
                         </label>
                         <label className="ml-4 text-3xl mt-8 ">
-                            Contact: {order.contact}
+                            Contact: {order.phone}
                         </label>
                         <div className="grid inline-flex">
                             <label className="ml-4 mt-8 text-3xl h-1 "

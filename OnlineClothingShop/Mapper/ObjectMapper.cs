@@ -6,36 +6,35 @@ namespace OnlineClothingShop.Mapper
 {
     public class ObjectMapper : IObjectMapper
     {
-        public Users MapUserData(SqlDataReader data)
+        public User MapUserData(SqlDataReader data)
         {
             data.Read();
 
-            var user = new Users
+            var user = new User
             {
                 username = data["username"].ToString(),
-                adresa = data["adresa"].ToString(),
-                nume = data["nume"].ToString(),
-                prenume = data["prenume"].ToString(),
-                puncte = float.Parse(data["puncte"].ToString()),
-                telefon = data["telefon"].ToString(),
-                type = Int32.Parse(data["type"].ToString())
+                adress = data["adress"].ToString(),
+                name = data["name"].ToString(),
+                surname = data["surname"].ToString(),
+                phone = data["phone"].ToString(),
+                isAdmin= Boolean.Parse(data["isAdmin"].ToString())
             };
 
             return user;
         }
 
-        public List<Products> MapProductsData(SqlDataReader data)
+        public List<Product> MapProductsData(SqlDataReader data)
         {
-            var products= new List<Products>();
+            var products= new List<Product>();
             while (data.Read())
             {
-                var product = new Products
+                var product = new Product
                 {
-                    denumire = data["denumire"].ToString(),
-                    idProdus = Int32.Parse(data["idProdus"].ToString()),
-                    marca = data["marca"].ToString(),
-                    pret = float.Parse(data["pret"].ToString()),
-                    tip = Int32.Parse(data["tip"].ToString())
+                    name = data["name"].ToString(),
+                    id = Int32.Parse(data["id"].ToString()),
+                    brand = data["brand"].ToString(),
+                    price = float.Parse(data["price"].ToString()),
+                    category = data["category"].ToString()
                 };
 
                 products.Add(product);

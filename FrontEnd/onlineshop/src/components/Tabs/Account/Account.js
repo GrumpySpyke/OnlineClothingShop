@@ -1,27 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiAccountCircleLine } from "react-icons/ri";
 import OrderEntry from "./OrderEntry";
 import Moment from "moment";
 import OrderPage from "./OrderPage";
 import ReturnPage from "./ReturnPage";
-function Account() {
+import { getAccountInfo,getOrders } from "../../../services/database-client";
+function Account({username}) {
+    //booleans
     const [editPassword, setEditPassword] = useState(false);
     const [editInfo, setEditInfo] = useState(false);
     const [showOrders, setShowOrders] = useState(false);
-    const [showOrder,setShowOrder] = useState(false);
-    const [showReturnOrder,setShowReturnOrder]=useState(false);
-    const [currentOrder,setCurrentOrder] = useState();
+    const [showOrder, setShowOrder] = useState(false);
+    const [showReturnOrder, setShowReturnOrder] = useState(false);
 
+    //objects
+    const [currentOrder, setCurrentOrder] = useState();
+    const [orders,setOrders]=useState();
+
+    //strings
     const [newPassword, setNewPassword] = useState("");
     const [repeatNewPassword, setRepeatNewPassword] = useState("");
     const [newEmail, setNewEmail] = useState("");
     const [newAdress, setNewAdress] = useState("")
     const [newPhone, setNewPhone] = useState("")
-    const orders = [{ id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"Delivering",contact:"074215215"},
-    { id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"Delivered",contact:"074215215"},
-    { id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"InDeposit",contact:"074215215"},
-    { id: "123457654889", adress: "Strada Rogojinea 69", value: "754", dateIn:Moment().format('DD-MM-YYYY'), dateOut: Moment().format('DD-MM-YYYY'),status:"Returned",contact:"074215215"}]
+    const [newUsername,setNewUsername] = useState("")
+    //initialize account info
+    useEffect(()=>{
 
+        getAccountInfo("gicubuca")
+        .then((res)=>{
+            console.log(res.data)
+
+            setNewEmail(res.data.email);
+            setNewAdress(res.data.adress);
+            setNewPhone(res.data.phone);
+            setNewUsername(res.data.username);
+        })
+        
+    },[])
+
+    
     //Functions
 
     const onClickApplyInfo = () => {
@@ -29,29 +47,43 @@ function Account() {
     }
 
     const onClickApplyPassword = () => {
+        if(newPassword==repeatNewPassword)
+        {
         setEditPassword(false);
+        }
     }
 
-    const handleShowOrder=(order)=>{
+    const handleShowOrder = (order) => {
         setCurrentOrder(order);
         setShowOrders(false);
         setShowOrder(true);
     }
 
-    const handleClickX=()=>{
+    const handleClickX = () => {
         setShowOrder(false);
         setShowReturnOrder(false);
         setShowOrders(false)
     }
 
-    const handleShowReturnOrder=(order)=>{
+    const handleShowReturnOrder = (order) => {
         setCurrentOrder(order)
         setShowReturnOrder(true);
 
     }
 
+    const handleShowOrders= ()=>{
+
+        getOrders("gigu")
+        .then((res)=>{
+            setOrders(res.data);
+            setShowOrders(true);
+
+        })
+       
+    }
+
     //Content
-    let returnOrderContent=null;
+    let returnOrderContent = null;
     let ordersContent = null;
     let orderContent = null;
 
@@ -62,16 +94,16 @@ function Account() {
         onClick={() => setEditInfo(true)}>Edit</button>
 
     let emailContent = <div className="flex items-center">
-        <label className="text-2xl">Email: thisEmail </label>
+        <label className="text-2xl">Email:{newEmail} </label>
 
     </div>
 
     let adressContent = <div className="flex items-center">
-        <label className="text-2xl">Adresa: thisAdress </label>
+        <label className="text-2xl">Adresa:{newAdress}</label>
     </div>
 
     let phoneContent = <div className="flex items-center">
-        <label className="text-2xl">Telefon: thisTelefon </label>
+        <label className="text-2xl">Telefon:{newPhone} </label>
     </div>
 
     if (editPassword) {
@@ -131,12 +163,12 @@ function Account() {
         </div>
     }
 
-    let buttonOrders = <button className="button is-primary" onClick={() => setShowOrders(!showOrders)}>Afisati comenzile</button>
+    let buttonOrders = <button className="button is-primary" onClick={() => handleShowOrders()}>Afisati comenzile</button>
 
     let accountContent = <div className="text-3xl py-5 mr-96">
         <div className="flex items-center text-6xl mb-6">
             <label>Username:</label>
-            <label>theuser</label>
+            <label>{newUsername}</label>
         </div>
         {passwordContent}
         <div className="mt-64">
@@ -169,20 +201,20 @@ function Account() {
             </div>
         })
     }
-    if(showOrder){
-        accountContent=null;
-        personalContent=null;
-        ordersContent=null;
-        orderContent=<OrderPage order={currentOrder} handleClickX={handleClickX} />
-        returnOrderContent=null;
+    if (showOrder) {
+        accountContent = null;
+        personalContent = null;
+        ordersContent = null;
+        orderContent = <OrderPage order={currentOrder} handleClickX={handleClickX} />
+        returnOrderContent = null;
     }
 
-    if(showReturnOrder){
-        accountContent=null;
-        personalContent=null;
-        ordersContent=null;
-        orderContent=null;
-        returnOrderContent=<ReturnPage order={currentOrder} handleClickX={handleClickX}/>;
+    if (showReturnOrder) {
+        accountContent = null;
+        personalContent = null;
+        ordersContent = null;
+        orderContent = null;
+        returnOrderContent = <ReturnPage order={currentOrder} handleClickX={handleClickX} />;
     }
     ///Return
     return <div>
@@ -193,7 +225,7 @@ function Account() {
 
         </div>
         <div className="justify-center">
-        {ordersContent}
+            {ordersContent}
         </div>
         {orderContent}
         {returnOrderContent}

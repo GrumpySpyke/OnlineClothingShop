@@ -1,26 +1,34 @@
 import { useState } from "react";
 import { GoHeart } from 'react-icons/go';
 import AdminProductView from "./AdminProductView";
-function Product({ product, onClose, isAdmin}) {
+import { useEffect } from "react";
+function Product({ product, onClose, isAdmin }) {
 
-    const [size, setSize] = useState("");
+
     const [hoverWishlist, setHoverWishlist] = useState(false);
-    const sizes = ["", "S", "M", "L", "XL"]
+    const [sizes, setSizes] = useState(["","M","L","XL"]);
+    const [size, setSize] = useState("");
+
+    // useEffect(() => {
+    //     product.stock.map((stockValue) => {
+    //         setSizes(stockValue.size);
+    //     })
+    // },[]);
 
     const handleAddCart = (event) => {
         event.preventDefault();
         const size = event.target[0].value;
         console.log(size) // marimea tricoului 
-        if (size =="") {
+        if (size == "") {
             console.log("noBueno")
         }
         onClose();
     }
 
     let adminContent;
-    if(isAdmin){
-        adminContent=<div>
-            <AdminProductView/>
+    if (isAdmin) {
+        adminContent = <div>
+            <AdminProductView />
         </div>
     }
 
@@ -47,11 +55,11 @@ function Product({ product, onClose, isAdmin}) {
                 </div>
                 <div className="mt-1">
                     <label>Marca:</label>
-                    <label style={{ float: "right" }}>Pula</label>
+                    <label style={{ float: "right" }}>{product.brand}</label>
                 </div>
                 <div className="mt-1">
                     <label>Categorie:</label>
-                    <label style={{ float: "right" }}>Pula</label>
+                    <label style={{ float: "right" }}>{product.category}</label>
                 </div>
             </div>
             <div className="">

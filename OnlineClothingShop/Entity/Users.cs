@@ -1,14 +1,14 @@
 ﻿namespace OnlineClothingShop.Entity
 {
-    public class Users
+    public class User
     {
         public string username { get; set; }
         public string password { get; set; }
-        public string adresa { get; set; }
-        public int type { get; set; }
-        public string nume { get; set; }
-        public string prenume { get; set; }
-        public float puncte { get; set; }
-        public string telefon { get; set; }
+        public string adress { get; set; }
+        public bool isAdmin { get; set; }
+        public string email { get; set; }
+        public string name { get; set; }
+        public string surname { get; set; }
+        public string phone { get; set; }
     }
 }

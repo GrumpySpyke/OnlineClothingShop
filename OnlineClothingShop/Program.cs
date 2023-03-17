@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();
-        policy.WithOrigins("https://localhost:4200")
+        policy.WithOrigins("http://localhost:3000")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -54,16 +54,17 @@ app.UseSwaggerUI(options=>
 
 app.UseHsts();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 //app.UseMiddleware();
+app.UseCors(SHOP_ALLOW_SPECIFIC_ORIGINS);
+app.UseEndpoints(
+    endpoints =>
+    {
+        endpoints.MapControllers();
+    });
 
-//app.UseEndpoints(
-//    endpoints=>
-//    {
-//        endpoints.MapControllers();
-//    });
 
 app.Run();

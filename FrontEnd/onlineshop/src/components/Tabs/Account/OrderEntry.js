@@ -1,39 +1,36 @@
 import { GoX } from "react-icons/go"
 import { GiReturnArrow } from "react-icons/gi"
 import { useState } from "react"
-import {classNames} from "classnames";
-function OrderEntry({ order, handleShowOrder,handleShowReturnOrder}) {
+import { classNames } from "classnames";
+function OrderEntry({ order, handleShowOrder, handleShowReturnOrder }) {
     const [hoverReturn, setHoverReturn] = useState(false);
     const [showOrder, setShowOrder] = useState(false);
 
-    const handleClick = () => {
-        console.log(order)
-    }
 
     let returnButtonContent = null;
     let statusContent = null;
-    let viewButtonContent =   <button className="button is-primary" style={{ marginLeft: 130, marginTop: 10 }} onClick={() => handleShowOrder(order)}>Vizualizeaza comanda</button>
-    switch (order.status) { 
+    let viewButtonContent = <button className="button is-primary" style={{ marginLeft: 130, marginTop: 10 }} onClick={() => handleShowOrder(order)}>Vizualizeaza comanda</button>
+    switch (order.status) {
         case "InDeposit":
-            statusContent=  <label className="ml-4 text-xl mt-4 text-blue-500"
+            statusContent = <label className="ml-4 text-xl mt-4 text-blue-500"
             >Status: {order.status}
             </label>
             break;
         case "Delivering":
-            statusContent=  <label className="ml-4 text-xl mt-4 text-amber-300"
+            statusContent = <label className="ml-4 text-xl mt-4 text-amber-300"
             >Status: {order.status}
             </label>
             break;
         case "Delivered":
-            statusContent=  <label className="ml-4 text-xl mt-4 text-green-500"
+            statusContent = <label className="ml-4 text-xl mt-4 text-green-500"
             >Status: {order.status}
             </label>
             break;
-            case "Returned":
-            statusContent=  <label className="ml-4 text-xl mt-4 text-teal-300"
+        case "Returned":
+            statusContent = <label className="ml-4 text-xl mt-4 text-teal-300"
             >Status: {order.status}
             </label>
-            viewButtonContent=null;
+            viewButtonContent = null;
             break;
     }
     if (order.status == "Delivered") {
@@ -42,7 +39,7 @@ function OrderEntry({ order, handleShowOrder,handleShowReturnOrder}) {
                 className="ml-72 mt-16"
                 onMouseEnter={() => { setHoverReturn(true) }}
                 onMouseLeave={() => { setHoverReturn(false) }}
-                onClick={()=>handleShowReturnOrder(order)}
+                onClick={() => handleShowReturnOrder(order)}
             >
                 <GiReturnArrow size={25} />
             </button>
@@ -60,14 +57,25 @@ function OrderEntry({ order, handleShowOrder,handleShowReturnOrder}) {
                     <label className="ml-4 text-xl mt-4 "
                     >Adresa: {order.adress}
                     </label>
-                    
+
                     <div className="grid inline-flex">
                         <label className="ml-4 mt-4 text-xl h-1 "
                         >Data Emiterii: {order.dateIn}
                         </label>
-                        <label className="ml-4 mt-4 text-xl h-1 "
-                        >Data Indeplinirii: {order.dateOut}
-                        </label>
+                        {
+                            order.status == "Delivered" 
+                            &&
+                            <label className="ml-4 mt-4 text-xl h-1 "
+                            >Data Indeplinirii: {order.dateOut}
+                            </label>
+                        }
+                        {
+                            order.status == "Returned"
+                            &&
+                            <label className="ml-4 mt-4 text-xl h-1 "
+                            >Data Returului: {order.dateOut}
+                            </label>
+                        }
                         <label className="ml-4 mt-4 mb-4 text-xl h-1 "
                         >Valoare: {order.value}RON
                         </label>
@@ -77,7 +85,7 @@ function OrderEntry({ order, handleShowOrder,handleShowReturnOrder}) {
                 <div className="ml-48">
                     <div className="grid">
                         {/* <button className="delete" style={{ marginLeft: 2 }} onClick={() => setSize("")}></button> */}
-                      {viewButtonContent}
+                        {viewButtonContent}
                     </div>
                     {returnButtonContent}
 

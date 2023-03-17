@@ -5,7 +5,7 @@ namespace OnlineClothingShop.Mapper.Contracts
 {
     public interface IObjectMapper
     {
-        public Users MapUserData(SqlDataReader data);
-        public List<Products> MapProductsData(SqlDataReader data);
+        public User MapUserData(SqlDataReader data);
+        public List<Product> MapProductsData(SqlDataReader data);
     }
 }

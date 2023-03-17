@@ -2,9 +2,9 @@ import { useState } from "react";
 import { GoListUnordered, GoSignOut, GoSearch } from "react-icons/go"
 import { BsFillCartCheckFill, BsFillTelephonePlusFill } from "react-icons/bs"
 import { MdAccountCircle } from "react-icons/md"
-import { RiAdminFill} from "react-icons/ri"
+import { RiAdminFill } from "react-icons/ri"
 import FilterOption from "./FilterOption";
-function NavBar({ onLogOut, onHandleNavigation, isAdmin}) {
+function NavBar({ onLogOut, onHandleNavigation, isAdmin }) {
 
   const [showAdmin, setShowAdmin] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -23,13 +23,13 @@ function NavBar({ onLogOut, onHandleNavigation, isAdmin}) {
 
   const onClickWomen = () => {
     category = "women";
-   // onHandleCategory(category);
+    // onHandleCategory(category);
     onHandleNavigation("women");
   }
 
   const onClickChildren = () => {
     category = "children";
-   // onHandleCategory(category);
+    // onHandleCategory(category);
     onHandleNavigation("children")
   }
 
@@ -61,15 +61,15 @@ function NavBar({ onLogOut, onHandleNavigation, isAdmin}) {
     const message = [event.target[0].value, event.target[1].value, event.target[2].value, event.target[3].value, event.target[4].value]
 
     setShowFilters(false);
-    
-    onHandleNavigation("searchFiltered",message);
+
+    onHandleNavigation("searchFiltered", message);
 
   }
 
-  const onSearch =(event)=>{
+  const onSearch = (event) => {
     event.preventDefault()
-
-    onHandleNavigation("search",undefined,searchText);
+    if (searchText != "")
+      onHandleNavigation("search", undefined, searchText);
   }
   adminContent = <li>
     <button style={{
@@ -148,7 +148,7 @@ function NavBar({ onLogOut, onHandleNavigation, isAdmin}) {
 
     <div className="w-1/2">
       <div className="inline-flex">
-        <form onSubmit={(event)=>{onSearch(event)}}>
+        <form onSubmit={(event) => { onSearch(event) }}>
           <button className="mr-3 " >
             <GoSearch className="" size={18} />
           </button>

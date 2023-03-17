@@ -1,14 +1,19 @@
 ﻿namespace OnlineClothingShop.Entity
 {
-    public class Products
+    public class Product
     {
-        public int idProdus { get; set; }
-        public string marca { get; set; }
-        public string denumire { get; set; }
-        public int tip { get; set; }
-        public int tipArticol { get; set; }
-        public int stoc { get; set; }
-        public float pret { get; set; }
-        public float pretPuncte { get; set; }
+        public int id { get; set; }
+        public string brand { get; set; }
+        public string name { get; set; }
+        public string category { get; set; }
+        public List<ProductStock> stock { get; set; }
+        public float price { get; set; }
+        public string sex { get; set; }
+    }
+
+    public class ProductStock
+    {
+        public string size;
+        public string stock;
     }
 }

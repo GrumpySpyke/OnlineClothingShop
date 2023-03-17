@@ -92,11 +92,10 @@ function MainPage({ onLogOut }) {
             content = <ProductList filters={filterValues} isAdmin={isAdmin} />
             break;
         case "search":
-            content = <ProductList pattern={searchText} isSearch={true} isAdmin={isAdmin} />
+            content = <ProductList pattern={searchText} isAdmin={isAdmin} />
             break;
         case "searchFiltered":
-
-            content = <ProductList filters={filters} isSearchF={true} isAdmin={isAdmin} />
+            content = <ProductList filters={filters} isAdmin={isAdmin} />
             break;
         case "wishlist":
             content = <Wishlist />
