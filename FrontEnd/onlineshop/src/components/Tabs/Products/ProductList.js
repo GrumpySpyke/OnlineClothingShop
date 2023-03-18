@@ -3,7 +3,7 @@ import ProductView from "./ProductView";
 import { useEffect, useState } from "react";
 import { GoX } from "react-icons/go";
 import { getFilteredProducts, getSearchProduct } from "../../../services/database-client";
-function ProductList({ filters, isAdmin, pattern }) {
+function ProductList({ filters, isAdmin, pattern,username}) {
 
     const [showProduct, setShowProduct] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(false);
@@ -19,7 +19,12 @@ function ProductList({ filters, isAdmin, pattern }) {
             })
         }
         else {
-            getSearchProduct(pattern);
+            getSearchProduct(pattern)
+            .then((res=>{
+                console.log(res.data)
+                setProducts(res.data);
+            }))
+
         }
     }, [filters])
 
@@ -44,7 +49,8 @@ function ProductList({ filters, isAdmin, pattern }) {
                     key={key}
                     handleImageClick={handleImgClick}
                     isAdmin={isAdmin}
-                    onHandleDelete={onHandleDelete} />
+                    onHandleDelete={onHandleDelete} 
+                    username={username}/>
             })}
 
         </div>
@@ -55,7 +61,7 @@ function ProductList({ filters, isAdmin, pattern }) {
                     <button onClick={closeProduct}>
                         <GoX size={50} className="top" />
                     </button>
-                    <Product product={currentProduct} onClose={closeProduct} isAdmin={isAdmin} />
+                    <Product product={currentProduct} onClose={closeProduct} isAdmin={isAdmin} username={username}/>
                 </div>
             </div>
         </div>}

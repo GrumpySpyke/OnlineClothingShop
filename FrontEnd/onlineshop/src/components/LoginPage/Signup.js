@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "../../index.css"
+import { registerUser,registerAdmin} from "../../services/database-client";
 
-function SignUp({ handleCancelSignUp }) {
+function SignUp({ handleCancelSignUp,isAdmin}) {
 
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -9,26 +10,74 @@ function SignUp({ handleCancelSignUp }) {
     const [phone, setPhone] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email,setEmail] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
-
+    const [showHover,setShowHover]=useState(false);
+    const [showError,setShowError]=useState(false);
+    const [showErrorData,setShowErrorData]=useState(false);
+    const [showSuccess,setShowSuccess]=useState(false);
     const onCancelSignUp = () => {
         handleCancelSignUp();
     }
 
+    const checkUserData=()=>{
+        if(name && surname && adress && phone && username && password && passwordRepeat && email)
+        return verifyPassword(password,passwordRepeat)
+        else {
+            setShowErrorData(true);
+            return false;
+        }
+    }
+
     const handleRegisterSubmit = (event) => {
         event.preventDefault();
-        if (verifyPassword(password, passwordRepeat)) {
-            console.log(name, surname, adress, phone, username, password, passwordRepeat);
+        if (checkUserData()) {
+            setShowErrorData(false);
+            if(!isAdmin)
+            {
+            registerUser({name,surname,adress,phone,username,password,isAdmin:true,email})
+            .then((res)=>{
+                console.log(res.data);
+                if(res.data.isOk){
+                    
+                    handleCancelSignUp();
+                }
+                else {
+                    setShowSuccess(false);
+                    setShowErrorData(false);
+                    setShowHover(false);
+                    setShowError(true);
+                }
+            })
         }
         else {
-            console.log("nu e buna parola");
+            registerAdmin({name,surname,adress,phone,username,password,isAdmin:true,email})
+            .then((res)=>{
+                console.log(res.data);
+                if(res.data.isOk){
+                    
+                    setShowSuccess(true);
+                }
+                else {
+                    setShowSuccess(false);
+                    setShowErrorData(false);
+                    setShowHover(false);
+                    setShowError(true);
+                }
+            })
         }
-        handleCancelSignUp();
+           
+        }
+       
+        
     }
 
     const verifyPassword = (password, passwordRepeat) => {
         if (password === passwordRepeat)
+
             return true;
+        setShowErrorData(false);
+        setShowHover(true);
         return false;
     }
 
@@ -52,6 +101,12 @@ function SignUp({ handleCancelSignUp }) {
                         placeholder="Adresa"
                         value={adress}
                         onChange={(event) => setAdress(event.target.value)}></input>
+                </div>
+                <div>
+                    <input style={{ fontSize: 20, marginBottom: 5, marginLeft: 9, marginTop: 10 }}
+                        placeholder="Email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}></input>
                 </div>
                 <div>
                     <input style={{ fontSize: 20, marginBottom: 5, marginLeft: 9, marginTop: 10 }}
@@ -89,6 +144,10 @@ function SignUp({ handleCancelSignUp }) {
                     style={{ marginLeft: 25, marginTop: 5, width: 200 }}
                     onClick={onCancelSignUp}>Cancel</button>
             </div>
+            {showHover &&(<div className="border-red-500 bg-red-500 text-left text-white text-center">Parola introdusa nu corespunde</div>)}
+            {showError &&(<div className="border-red-500 bg-red-500 text-left text-white text-center">Username deja existent</div>)}
+            {showErrorData &&(<div className="border-red-500 bg-red-500 text-left text-white text-center">Toate campurile sunt obligatorii</div>)}
+            {showSuccess &&(<div className="border-green-500 bg-green-500 text-left text-white text-center">Admin creat cu success!</div>)}
         </div>
     )
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../index.css"
-
+import { authenticateUser } from "../../services/database-client";
 function LogIn({handleSignIn}) {
 
     const [username, setUsername] = useState("");
@@ -8,8 +8,9 @@ function LogIn({handleSignIn}) {
 
     const onSubmitUser = (event) => {
         event.preventDefault();
-        handleSignIn();
-        console.log(username, password)
+        console.log(username,password);
+        handleSignIn(username,password);
+        
     }
 
     return (
@@ -25,6 +26,7 @@ function LogIn({handleSignIn}) {
                     {/* <label />Password:  */}
                     <input className="input" placeholder="Enter password"
                         value={password}
+                        type="password"
                         onChange={(event) => setPassword(event.target.value)}
                         style={{ marginTop: 10 }}
                     />

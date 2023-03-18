@@ -1,11 +1,11 @@
 ﻿namespace OnlineClothingShop.Entity
 {
-    public class Order
+    public class OrderData
     {
         public string username { get; set; }
         public int id { get; set; }
         public string adress { get; set; }
-        public List<Product> products { get; set; }
+        public List<ProductData> products { get; set; }
         public DateTime dateIn { get; set; }
         public DateTime dateOut { get; set; }
 

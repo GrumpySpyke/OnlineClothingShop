@@ -6,11 +6,11 @@ namespace OnlineClothingShop.Mapper
 {
     public class ObjectMapper : IObjectMapper
     {
-        public User MapUserData(SqlDataReader data)
+        public UserData MapUserData(SqlDataReader data)
         {
             data.Read();
 
-            var user = new User
+            var user = new UserData
             {
                 username = data["username"].ToString(),
                 adress = data["adress"].ToString(),
@@ -23,12 +23,12 @@ namespace OnlineClothingShop.Mapper
             return user;
         }
 
-        public List<Product> MapProductsData(SqlDataReader data)
+        public List<ProductData> MapProductsData(SqlDataReader data)
         {
-            var products= new List<Product>();
+            var products= new List<ProductData>();
             while (data.Read())
             {
-                var product = new Product
+                var product = new ProductData
                 {
                     name = data["name"].ToString(),
                     id = Int32.Parse(data["id"].ToString()),

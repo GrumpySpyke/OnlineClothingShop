@@ -1,26 +1,12 @@
 import { GoX } from "react-icons/go";
 import { GiReturnArrow } from "react-icons/gi"
-function BasketItem({ item, handleDeleteProduct, isReturn, isOrder }) {
+function BasketItem({ item, handleDeleteProduct, isReturn,handleReturn,isOrder }) {
 
 
     let priceContent = null;
     let buttonContent;
 
-    if (isReturn) {
-        buttonContent = <div className="ml-96 mt-">
-            <div className="grid">
-                <button
-                    onClick={() => { handleDeleteProduct() }}>
-                    <GiReturnArrow size={50} className="top" />
-                </button>
-
-            </div>
-
-
-        </div>
-    }
-
-    if (!isReturn && !isOrder) {
+    if (!isOrder) {
         buttonContent = <div className="ml-96 mt-">
             <div className="grid">
                 <button
@@ -30,6 +16,22 @@ function BasketItem({ item, handleDeleteProduct, isReturn, isOrder }) {
             </div>
         </div>
     }
+
+    if (!item.isReturned && isReturn) {
+        buttonContent = <div className="ml-96 mt-">
+            <div className="grid">
+                <button
+                    onClick={() => { handleReturn(item.id) }}>
+                    <GiReturnArrow size={50} className="top" />
+                </button>
+
+            </div>
+
+
+        </div>
+    }
+
+
 
     switch (item.disc) {
         case true:
@@ -55,12 +57,10 @@ function BasketItem({ item, handleDeleteProduct, isReturn, isOrder }) {
                     <label className="ml-4 text-xl h-1">
                         Nume: {item.name}
                     </label>
-                    <label className="ml-4 text-xl "
-                    >Marca: {item.brand}
-                    </label>
+
 
                     <div className="grid inline-flex">
-                        <label className="ml-4 mt-4 text-xl h-1 "
+                        <label className="ml-4 mt text-xl h-1 "
                         >Marime: {item.size}
                         </label>
                         {priceContent}

@@ -1,11 +1,29 @@
 import { useState } from "react";
 import { GoX } from "react-icons/go";
-function WishlistEntry({ product,handleImgClick}) {
+import { removeItemFromWishlist } from "../../../services/database-client";
+function WishlistEntry({ username,product,handleImgClick,handleRefresh}) {
     const [hoverDelete, setHoverDelete] = useState(false);
 
     const onClickDelete = () => {
-        console.log("bueno")
+        removeItemFromWishlist(product.id,username)
+        .then((res)=>{
+            console.log(res.data);
+        })
+        handleRefresh();
     }
+    let priceContent=null;
+    switch (product.disc) {
+        case true:
+            priceContent = <label className="ml-4 mt-4 mb-4 text-xl h-1 text-red-500 "
+            >Valoare: {product.price}RON
+            </label>
+            break;
+        case false:
+            priceContent = <label className="ml-4 mt-4 mb-4 text-xl h-1"
+            >Valoare: {product.price}RON
+            </label>
+    }
+
     return <div className="mt-6 ml-64">
         <div className="border-8 py-2 px-2 border-sky-400 inline-flex w-2/3">
             <div>
@@ -16,15 +34,12 @@ function WishlistEntry({ product,handleImgClick}) {
                 <label className="ml-4 text-xl h-1">
                     Nume:{product.name}
                 </label>
-                {(product.size) && <label className="ml-4 text-xl h-1 mb-16">Marime: {product.size}</label>}
+                <label className="ml-4 mt-4 text-xl h-1 mb-8">Marca: {product.brand}</label>
+                {priceContent}
             </div>
             <div className="ml-24">
-                <div className="grid">
-                    {/* <button className="delete" style={{ marginLeft: 2 }} onClick={() => setSize("")}></button> */}
-                    <button className="button is-primary" style={{ marginLeft: 130, marginTop: 10 }} onClick={() => { console.log("merge") }}>Adauga in cos</button>
-                </div>
                 <button
-                    className="ml-64 mt-16"
+                    className="ml-64 mt-12"
                     onMouseEnter={() => { setHoverDelete(true) }}
                     onMouseLeave={() => { setHoverDelete(false) }}
                     onClick={onClickDelete}>

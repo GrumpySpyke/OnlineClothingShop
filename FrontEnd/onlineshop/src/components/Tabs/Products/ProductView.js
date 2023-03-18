@@ -1,15 +1,25 @@
 import { useState } from "react";
 import Product from "./Product";
 import { GoHeart, GoX } from 'react-icons/go';
+import { addItemToWishlist, removeProduct } from "../../../services/database-client";
 
-function ProductView({ product,handleImageClick, isAdmin, onHandleDelete }) {
+function ProductView({ product,handleImageClick, isAdmin,username}) {
 
     const [hoverWishlist, setHoverWishlist] = useState(false);
     const [hoverDelete, setHoverDelete] = useState(false);
 
     const onClickDelete = () => {
-        console.log(product.name);
-        onHandleDelete(product.name);
+        removeProduct(product.id,)
+        .then((res)=>{
+            console.log(res.data);
+        })
+    }
+
+    const addToWishlist=()=>{
+        addItemToWishlist(product.id,username)
+        .then((res)=>{
+            console.log(res.data);
+        })
     }
 
     let content;
@@ -41,7 +51,7 @@ function ProductView({ product,handleImageClick, isAdmin, onHandleDelete }) {
                 <GoHeart size={25}
                     onMouseEnter={() => { setHoverWishlist(true) }}
                     onMouseLeave={() => { setHoverWishlist(false) }}
-                    onClick={() => { console.log(isAdmin) }}
+                    onClick={() => {addToWishlist() }}
                     className="ml-52" />
             </button>
 

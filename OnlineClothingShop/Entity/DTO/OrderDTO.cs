@@ -5,7 +5,7 @@
     public string username { get; set; }
     public int id { get; set; }
     public string adress { get; set; }
-    public List<Product> products { get; set; }
+    public List<ProductData> products { get; set; }
     public string dateIn { get; set; }
     public string dateOut { get; set; }
 

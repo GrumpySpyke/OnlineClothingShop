@@ -43,7 +43,7 @@ namespace OnlineClothingShop.Repository
             return false;
         }
 
-        public User GetUserData(string username)
+        public UserData GetUserData(string username)
         {
             var connection = OpenConnection();
             var command = new SqlCommand();
@@ -60,7 +60,7 @@ namespace OnlineClothingShop.Repository
             return user;
         }
 
-        public List<Product> GetAllProductsData()
+        public List<ProductData> GetAllProductsData()
         {
             var connection = OpenConnection();
             var command = new SqlCommand();

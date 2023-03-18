@@ -9,12 +9,11 @@ import Wishlist from "./Tabs/Wishlist/Wishlist";
 import Admin from "./Tabs/Admin/Admin";
 import MainPageContent from "./Tabs/MainPage/MainPageContent";
 import { GetFilteredProducts } from "../services/database-client";
-function MainPage({ onLogOut }) {
+function MainPage({ onLogOut, accountData}) {
 
     const [page, setPage] = useState("mainpage");
     const [filters, setFilters] = useState();
     const [searchText,setSearchText]=useState();
-    const isAdmin = true;
 
     const handleCloseBasket=()=>{
         setPage("account");
@@ -58,7 +57,7 @@ function MainPage({ onLogOut }) {
                 priceMin: "",
                 priceMax: ""
             }
-            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
+            content = <ProductList filters={filterValues} isAdmin={accountData.isAdmin} username={accountData.username}/>
             
             break;
         case "men":
@@ -69,7 +68,7 @@ function MainPage({ onLogOut }) {
                 priceMin: "",
                 priceMax: ""
             }
-            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
+            content = <ProductList filters={filterValues} isAdmin={accountData.isAdmin} username={accountData.username}/>
             break;
         case "women":
             filterValues = {
@@ -79,7 +78,7 @@ function MainPage({ onLogOut }) {
                 priceMin: "",
                 priceMax: ""
             }
-            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
+            content = <ProductList filters={filterValues} isAdmin={accountData.isAdmin} username={accountData.username}/>
             break;
         case "children":
             filterValues = {
@@ -89,30 +88,23 @@ function MainPage({ onLogOut }) {
                 priceMin: "",
                 priceMax: ""
             }
-            content = <ProductList filters={filterValues} isAdmin={isAdmin} />
+            content = <ProductList filters={filterValues} isAdmin={accountData.isAdmin} username={accountData.username}/>
             break;
         case "search":
-            content = <ProductList pattern={searchText} isAdmin={isAdmin} />
+            content = <ProductList pattern={searchText} isAdmin={accountData.isAdmin} username={accountData.username}/>
             break;
         case "searchFiltered":
-            content = <ProductList filters={filters} isAdmin={isAdmin} />
+            content = <ProductList filters={filters} isAdmin={accountData.isAdmin} username={accountData.username}/>
             break;
         case "wishlist":
-            content = <Wishlist />
+            content = <Wishlist username={accountData.username}/>
             break;
         case "basket":
-            let items = [{ name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 100, disc: true, size: "M" },
-            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 200, disc: false, size: "M" },
-            { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 400, disc: true, size: "M" },
-            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
-            { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 500, disc: true, size: "M" },
-            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
-            { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 600, disc: true, size: "M" },
-            { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 700, disc: false, size: "M" }];
-            content = <Basket handleCloseBasket={handleCloseBasket} items={items}/>
+
+            content = <Basket handleCloseBasket={handleCloseBasket} accountData={accountData}/>
             break;
         case "account":
-            content = <Account />
+            content = <Account accountData={accountData}/>
             break;
         case "contact":
             content = <Contact />
@@ -123,7 +115,7 @@ function MainPage({ onLogOut }) {
 
     return (
         <>
-            <NavBar onLogOut={onLogOut} onHandleNavigation={onHandleNavigation} isAdmin={isAdmin}></NavBar>
+            <NavBar onLogOut={onLogOut} onHandleNavigation={onHandleNavigation} isAdmin={accountData.isAdmin}></NavBar>
             {content}
         </>
     )

@@ -1,19 +1,9 @@
 import { GoX } from "react-icons/go"
 import BasketItem from "../Basket/BasketItem";
-function OrderPage({ order, handleClickX,isReturn}) {
+import { cancelOrder } from "../../../services/database-client";
+function OrderPage({username,order, handleClickX,isReturn}) {
 
     let cancelButtonContent = null;
-
-    const products = [{ name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 100, disc: true, size: "M" },
-    { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 200, disc: false, size: "M" },
-    { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 400, disc: true, size: "M" },
-    { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
-    { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 500, disc: true, size: "M" },
-    { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 300, disc: false, size: "M" },
-    { name: "Tricou gucci barbati", brand: "Gucci", category: "tricou", sex: "F", price: 600, disc: true, size: "M" },
-    { name: "Boxeri Pull&Bear barbati", sex: "M", brand: "Burberry", category: "boxeri", price: 700, disc: false, size: "M" }];
-
-    order.products = products;
 
     const onClickX = () => {
         console.log(order);
@@ -21,7 +11,12 @@ function OrderPage({ order, handleClickX,isReturn}) {
     }
 
     const onClickCancel = () => {
-        handleClickX();
+        cancelOrder(username,order.id)
+        .then((res)=>{
+            console.log(res.data);
+            handleClickX();
+        })
+        
     }
 
     

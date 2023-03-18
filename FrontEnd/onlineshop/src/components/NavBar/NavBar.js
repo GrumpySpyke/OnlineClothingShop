@@ -16,20 +16,14 @@ function NavBar({ onLogOut, onHandleNavigation, isAdmin }) {
   const filterOptions = ["Sex", "Categorie", "Marca", "Pret"]
 
   const onClickMen = () => {
-    category = "men";
-    //onHandleCategory(category);
     onHandleNavigation("men")
   }
 
   const onClickWomen = () => {
-    category = "women";
-    // onHandleCategory(category);
     onHandleNavigation("women");
   }
 
   const onClickChildren = () => {
-    category = "children";
-    // onHandleCategory(category);
     onHandleNavigation("children")
   }
 

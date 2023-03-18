@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 import "./index.css";
 import NavBar from "./components/NavBar/NavBar";
 import MainPage from "./components/MainPage";
+import { authenticateUser } from "./services/database-client";
 
 function App() {
 
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogIn, setShowLogin] = useState(true);
+  const [showHover,setShowHover]=useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-
+  const [accountData, setAccountData] = useState()
   const handleSignUp = () => {
     setShowSignUp(true);
     setShowLogin(false)
@@ -23,10 +25,24 @@ function App() {
     setShowSignUp(false);
   }
 
-  const handleSignIn = () => {
-    setShowLogin(false);
-    setShowSignUp(false);
-    setIsSignedIn(true);
+  const handleSignIn = (username, password) => {
+
+    console.log(username, password);
+    authenticateUser(username, password)
+      .then((res) => {
+        setAccountData(res.data);
+        console.log(accountData);
+        if (res.data.isOk) {
+          setShowLogin(false);
+          setShowSignUp(false);
+          setIsSignedIn(true);
+          setShowHover(false);
+        }
+        else {
+          setShowHover(true);
+        }
+      })
+
   }
 
   const handleLogOut = () => {
@@ -66,8 +82,9 @@ function App() {
     setContent();
   }
   if (isSignedIn) {
+
     content = null;
-    signedInContent = <MainPage onLogOut={handleLogOut} />
+    signedInContent = <MainPage onLogOut={handleLogOut} accountData={accountData.userData} />
   }
 
   // useEffect(() => {
@@ -82,6 +99,7 @@ function App() {
   return (
     <div>
       {content}
+      {showHover &&(<div className="border-red-500 bg-red-500 text-left text-white text-center">User sau parola introduse gresit</div>)}
       {signedInContent}
     </div>
   );

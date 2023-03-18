@@ -4,8 +4,8 @@ import OrderEntry from "./OrderEntry";
 import Moment from "moment";
 import OrderPage from "./OrderPage";
 import ReturnPage from "./ReturnPage";
-import { getAccountInfo,getOrders } from "../../../services/database-client";
-function Account({username}) {
+import { getAccountInfo, getOrders, updateInfo, updatePassword } from "../../../services/database-client";
+function Account({accountData }) {
     //booleans
     const [editPassword, setEditPassword] = useState(false);
     const [editInfo, setEditInfo] = useState(false);
@@ -15,7 +15,7 @@ function Account({username}) {
 
     //objects
     const [currentOrder, setCurrentOrder] = useState();
-    const [orders,setOrders]=useState();
+    const [orders, setOrders] = useState();
 
     //strings
     const [newPassword, setNewPassword] = useState("");
@@ -23,33 +23,39 @@ function Account({username}) {
     const [newEmail, setNewEmail] = useState("");
     const [newAdress, setNewAdress] = useState("")
     const [newPhone, setNewPhone] = useState("")
-    const [newUsername,setNewUsername] = useState("")
+    const [newUsername, setNewUsername] = useState("")
     //initialize account info
-    useEffect(()=>{
+    useEffect(() => {
 
-        getAccountInfo("gicubuca")
-        .then((res)=>{
-            console.log(res.data)
 
-            setNewEmail(res.data.email);
-            setNewAdress(res.data.adress);
-            setNewPhone(res.data.phone);
-            setNewUsername(res.data.username);
-        })
-        
-    },[])
+        setNewEmail(accountData.email);
+        setNewAdress(accountData.adress);
+        setNewPhone(accountData.phone);
+        setNewUsername(accountData.username);
 
-    
+    }, [])
+
+
     //Functions
 
     const onClickApplyInfo = () => {
-        setEditInfo(false);
+        updateInfo(accountData.username,{phone:newPhone,adress:newAdress,email:newEmail})
+        .then((res)=>{
+            console.log(res.data)
+            setEditInfo(false);
+        })
+        
     }
 
     const onClickApplyPassword = () => {
-        if(newPassword==repeatNewPassword)
-        {
-        setEditPassword(false);
+        if (newPassword == repeatNewPassword) {
+            updatePassword(accountData.username,newPassword)
+            .then((res)=>{
+                console.log(res);
+                setEditPassword(false);
+            })
+            
+
         }
     }
 
@@ -71,15 +77,19 @@ function Account({username}) {
 
     }
 
-    const handleShowOrders= ()=>{
+    const handleShowOrders = () => {
 
-        getOrders("gigu")
-        .then((res)=>{
-            setOrders(res.data);
-            setShowOrders(true);
+        if (!showOrders) {
+            getOrders(accountData.username)
+                .then((res) => {
+                    setOrders(res.data);
+                    setShowOrders(true);
 
-        })
-       
+                })
+        }
+        else{
+            setShowOrders(false);
+        }
     }
 
     //Content
@@ -110,15 +120,15 @@ function Account({username}) {
         passwordContent = <div className="my-1">
             <div className="flex items-center">
                 <label>Parola noua: </label>
-                <input className="ml-8 border-2 border-solid" value={newPassword} onChange={(event) => setNewPassword(event.target.value)}></input>
+                <input className="ml-8 border-2 border-solid" type="password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)}></input>
             </div>
             <div className="flex items-center my-2 w-64">
                 <label>Reintroduceti parola: </label>
-                <input className=" ml-4 border-2 border-solid" value={repeatNewPassword} onChange={(event) => setRepeatNewPassword(event.target.value)}></input>
+                <input className=" ml-4 border-2 border-solid" type="password" value={repeatNewPassword} onChange={(event) => setRepeatNewPassword(event.target.value)}></input>
 
             </div>
             <div>
-                <button className="ml-80 mr-2 mt-2 border-8 bg-green-500 w-36 border-green-500 text-blue-800"
+                <button className="ml-52 mr-2 mt-2 border-8 bg-green-500 w-36 border-green-500 text-blue-800"
                     onClick={() => onClickApplyPassword()}>Apply</button>
                 <button className="ml-2 border-8 bg-red-500 w-36 border-red-500 text-white"
                     onClick={() => setEditPassword(false)}>Cancel</button>
@@ -205,7 +215,7 @@ function Account({username}) {
         accountContent = null;
         personalContent = null;
         ordersContent = null;
-        orderContent = <OrderPage order={currentOrder} handleClickX={handleClickX} />
+        orderContent = <OrderPage order={currentOrder} handleClickX={handleClickX} username={accountData.username}/>
         returnOrderContent = null;
     }
 
@@ -214,7 +224,7 @@ function Account({username}) {
         personalContent = null;
         ordersContent = null;
         orderContent = null;
-        returnOrderContent = <ReturnPage order={currentOrder} handleClickX={handleClickX} />;
+        returnOrderContent = <ReturnPage order={currentOrder} handleClickX={handleClickX} username={accountData.username}/>;
     }
     ///Return
     return <div>
