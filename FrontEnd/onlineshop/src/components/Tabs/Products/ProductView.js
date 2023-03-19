@@ -44,15 +44,16 @@ function ProductView({ product,handleImageClick, isAdmin,username}) {
         </div>
     }
     content = <div className="book-show">
+        {isAdmin && adminButton}
         <div className="inline-flex">
-            {isAdmin && adminButton}
+            
 
-            <button>
+            <button style={{float:"right", marginLeft:20}}>
                 <GoHeart size={25}
                     onMouseEnter={() => { setHoverWishlist(true) }}
                     onMouseLeave={() => { setHoverWishlist(false) }}
                     onClick={() => {addToWishlist() }}
-                    className="ml-52" />
+                    className="ml-56" />
             </button>
 
         </div>

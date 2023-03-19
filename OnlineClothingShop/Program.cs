@@ -1,6 +1,10 @@
 
 using Microsoft.AspNetCore.Builder;
+using OnlineClothingShop;
 using OnlineClothingShop.Configuration;
+using OnlineClothingShop.Logic.Contracts;
+using OnlineClothingShop.Mapper;
+using OnlineClothingShop.Mapper.Contracts;
 using OnlineClothingShop.Repository;
 using OnlineClothingShop.Repository.Contracts;
 
@@ -18,7 +22,10 @@ IConfigurationSection databaseSection = configuration.GetSection("DatabaseOption
 builder.Services.Configure<DatabaseOptions>(databaseSection);
 
 //Dependecy Injection
-//builder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
+builder.Services.AddSingleton<IObjectMapper, ObjectMapper>();
+builder.Services.AddSingleton<IDatabaseRepository, DatabaseRepository>();
+
+builder.Services.AddSingleton<IShopLogic, ShopLogic>();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();

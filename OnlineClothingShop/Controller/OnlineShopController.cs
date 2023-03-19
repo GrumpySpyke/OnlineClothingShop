@@ -4,6 +4,7 @@ using OnlineClothingShop.Entity;
 using OnlineClothingShop.Entity.DTO;
 using OnlineClothingShop.Entity.Request;
 using OnlineClothingShop.Entity.Response;
+using OnlineClothingShop.Logic.Contracts;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
@@ -12,53 +13,41 @@ namespace OnlineClothingShop.Controllers
 {
     [Controller]
     [EnableCors("ShopAllowSpecificOrigins")]
+
+   
+
     public class OnlineShopController : Controller
     {
+        private IShopLogic _logic { get; set; }
 
-        [HttpGet]
-        [Route("account-info")]
-        public ActionResult<UserData> GetAccountInfo(string username)
+        public OnlineShopController(IShopLogic logic)
         {
-            return new UserData
-            {
-                isAdmin = true,
-                username = username,
-                password = "1234",
-                adress = "Aleea Ghiocei",
-                name = "Doru",
-                surname = "Cuceritorul",
-                phone = "0742851251",
-                email = "emaogtfea@gmail.com"
-            };
+            _logic = logic;
         }
 
         [HttpGet]
         [Route("/orders")]
         public ActionResult<List<OrderDTO>> GetOrders(string username)
         {
-            var products = new List<ProductData>();
-            var stockValue = new List<ProductStock>();
-            var stockValue1 = new ProductStock()
-            {
-                stock = "10",
-                size = "42"
-            };
-            stockValue.Add(stockValue1);
 
-            var product1 = new ProductData()
+            //var ordersGood= _logic.GetOrders(username);
+
+            var products = new List<ProductDataDTO>();
+
+            var product1 = new ProductDataDTO()
             {
                 id = 1,
                 brand = "Gucci",
                 category = "sosete",
                 name = "Sosete Gucci Ultraboss",
-                price = float.Parse("105.99"),
+                price = "105.99",
                 sex = "M",
                 size = "42",
                 disc = true,
                 isReturned=false
 
             };
-            product1.stock = stockValue;
+
             products.Add(product1);
 
             var orders = new List<OrderDTO>();
@@ -117,14 +106,9 @@ namespace OnlineClothingShop.Controllers
         [Route("/filtered-search")]  
         public ActionResult<List<ProductData>> GetFilteredProdcuts([FromBody] SearchFilters filters)
         {
+            //var productsGood=_logic.GetFilteredProducts(filters);
+
             var products = new List<ProductData>();
-            var stockValue = new List<ProductStock>();
-            var stockValue1 = new ProductStock()
-            {
-                stock = "10",
-                size = "42"
-            };
-            stockValue.Add(stockValue1);
 
             var product1 = new ProductData()
             {
@@ -138,7 +122,7 @@ namespace OnlineClothingShop.Controllers
                 disc = true
 
             };
-            product1.stock = stockValue;
+
             products.Add(product1);
 
             return products;
@@ -149,6 +133,9 @@ namespace OnlineClothingShop.Controllers
         [Route("/login")]
         public ActionResult<AuthenticateUserResponse> AuthenticateUser(string username, string password)
         {
+
+            //var response = _logic.AuthenticateUser(username, password);
+
             var user = new UserData()
             {
                 adress = "Strada Lunga",
@@ -180,6 +167,8 @@ namespace OnlineClothingShop.Controllers
         public ActionResult<RegisterUserResponse> RegisterUser([FromBody] UserData userData)
         {
             userData.isAdmin = false;
+
+            var responseGood = _logic.RegisterUser(userData);
             var response= new RegisterUserResponse();
 
             if (userData.username != "dinamo")
@@ -200,6 +189,7 @@ namespace OnlineClothingShop.Controllers
             var response = new RegisterUserResponse();
 
             userData.isAdmin= true;
+            var responseGood = _logic.RegisterUser(userData);
             if (userData.username != "dinamo")
             {
                 response.isOk = true;
@@ -216,14 +206,8 @@ namespace OnlineClothingShop.Controllers
         [Route("/wishlist")]
         public ActionResult<List<ProductData>> GetWishlistProducts(string username)
         {
+            var response= _logic.GetWishlistItems(username);
             var products = new List<ProductData>();
-            var stockValue = new List<ProductStock>();
-            var stockValue1 = new ProductStock()
-            {
-                stock = "10",
-                size = "42"
-            };
-            stockValue.Add(stockValue1);
 
             var product1 = new ProductData()
             {
@@ -232,7 +216,7 @@ namespace OnlineClothingShop.Controllers
                 category = "sosete",
                 name = "Sosete Gucci Ultraboss",
                 price = float.Parse("105.99"),
-                stock = stockValue,
+ 
                 sex = "M",
                 size = "42",
                 disc = true
@@ -247,14 +231,9 @@ namespace OnlineClothingShop.Controllers
         [Route("/basket")]
         public ActionResult<List<ProductData>> GetBasketProducts(string username)
         {
+            var result = _logic.GetBasketItems(username);
+
             var products = new List<ProductData>();
-            var stockValue = new List<ProductStock>();
-            var stockValue1 = new ProductStock()
-            {
-                stock = "10",
-                size = "42"
-            };
-            stockValue.Add(stockValue1);
 
             var product1 = new ProductData()
             {
@@ -263,7 +242,6 @@ namespace OnlineClothingShop.Controllers
                 category = "sosete",
                 name = "Sosete Gucci Ultraboss",
                 price = float.Parse("105.99"),
-                stock = stockValue,
                 sex = "M",
                 size = "42",
                 disc = true
@@ -279,14 +257,9 @@ namespace OnlineClothingShop.Controllers
         [Route("/pattern")]
         public ActionResult<List<ProductData>> GetSearchedProducts(string pattern)
         {
+            var result = _logic.GetSearchedItems(pattern);
+
             var products = new List<ProductData>();
-            var stockValue = new List<ProductStock>();
-            var stockValue1 = new ProductStock()
-            {
-                stock = "10",
-                size = "42"
-            };
-            stockValue.Add(stockValue1);
 
             var product1 = new ProductData()
             {
@@ -295,7 +268,6 @@ namespace OnlineClothingShop.Controllers
                 category = "sosete",
                 name = "Sosete Gucci Ultraboss",
                 price = float.Parse("105.99"),
-                stock = stockValue,
                 sex = "M",
                 size ="42",
                 disc = true
@@ -311,6 +283,8 @@ namespace OnlineClothingShop.Controllers
         [Route("/wishlist")]
         public ActionResult<WishlistResponse> AddItemToWishlist(string id, string username)
         {
+            var response = _logic.AddItemToWishlist(id,username);
+
             return new WishlistResponse()
             {
                 isOk = true
@@ -321,6 +295,8 @@ namespace OnlineClothingShop.Controllers
         [Route("/wishlist")]
         public ActionResult<WishlistResponse> RemoveItemFromWishlist(string id, string username)
         {
+            var response = _logic.RemoveItemFromWishlist(id,username);
+            
             return new WishlistResponse()
             {
                 isOk = true
@@ -330,6 +306,9 @@ namespace OnlineClothingShop.Controllers
         [Route("/basket")]
         public ActionResult<BasketResponse> AddItemToBasket(string id, string username,string size)
         {
+            var response = _logic.AddItemToBasket(id, username, size);
+
+
             return new BasketResponse()
             {
                 isOk = true
@@ -337,8 +316,10 @@ namespace OnlineClothingShop.Controllers
         }
         [HttpDelete]
         [Route("/basket")]
-        public ActionResult<BasketResponse> RemoveItemFromBasket(string id, string username)
+        public ActionResult<BasketResponse> RemoveItemFromBasket(string id, string username,string size)
         {
+            var response = _logic.RemoveItemFromBasket(id,username,size);
+
             return new BasketResponse()
             {
                 isOk = true
@@ -349,6 +330,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/products")]
         public ActionResult <ProductsResponse> RemoveProduct(string id)
         {
+            var response = _logic.RemoveProduct(id);
             return new ProductsResponse() 
             { 
                 isOk = true 
@@ -360,6 +342,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/products")]
         public ActionResult<ProductsResponse> AddProduct([FromBody]ProductDataDTO productData)
         {
+            var response= _logic.AddProduct(productData);
             return new ProductsResponse()
             {
                 isOk = true
@@ -370,6 +353,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/products")]
         public ActionResult<ProductsResponse> UpdateProduct([FromBody]ProductDataDTO productData)
         {
+            var response = _logic.UpdateProduct(productData);
             return new ProductsResponse()
             {
                 isOk = true
@@ -380,6 +364,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/newOrder")]
         public ActionResult<ProductsResponse> ExecuteOrder([FromBody] OrderDTO orderData)
         {
+            var response = _logic.ExecuteOrder(orderData);
             return new ProductsResponse()
             {
                 isOk = true
@@ -390,6 +375,8 @@ namespace OnlineClothingShop.Controllers
         [Route("/sizes")]
         public ActionResult<List<string>> GetProductSizes(string id)
         {
+            var response = _logic.GetProductSizes(id);
+
             var sizes=new List<string>();
             sizes.Add("");
             sizes.Add("S");
@@ -402,6 +389,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/password")]
         public ActionResult<string> UpdatePassword(string username, string password)
         {
+            var response = _logic.UpdatePassword(username, password);
             return "Ok";
         }
 
@@ -409,6 +397,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/info")]
         public ActionResult<string> UpdateUserInfo(string username, [FromBody] UpdateInfoRequest info)
         {
+            var result = _logic.UpdateUserInfo(username, info);
             return "Ok";
         }
 

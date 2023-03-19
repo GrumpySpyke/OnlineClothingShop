@@ -27,7 +27,7 @@ function Account({accountData }) {
     //initialize account info
     useEffect(() => {
 
-
+        console.log(accountData)
         setNewEmail(accountData.email);
         setNewAdress(accountData.adress);
         setNewPhone(accountData.phone);

@@ -35,13 +35,6 @@ export const getSearchProduct=(searchText)=>{
     return axios.get("https://localhost:7068/pattern?pattern="+searchText);
 }
 
-export const getAccountInfo= (username)=>{
-    const url = "https://localhost:7068/account-info?username="+username
-    console.log(url)
-    
-    return axios.get(url)
-}
-
 export const getOrders= (username)=>{
     const url = "https://localhost:7068/orders?username="+username
 
