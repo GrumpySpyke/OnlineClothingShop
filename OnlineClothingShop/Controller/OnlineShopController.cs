@@ -168,7 +168,7 @@ namespace OnlineClothingShop.Controllers
         {
             userData.isAdmin = false;
 
-            var responseGood = _logic.RegisterUser(userData);
+            //var responseGood = _logic.RegisterUser(userData);
             var response= new RegisterUserResponse();
 
             if (userData.username != "dinamo")
@@ -189,7 +189,7 @@ namespace OnlineClothingShop.Controllers
             var response = new RegisterUserResponse();
 
             userData.isAdmin= true;
-            var responseGood = _logic.RegisterUser(userData);
+            //var responseGood = _logic.RegisterUser(userData);
             if (userData.username != "dinamo")
             {
                 response.isOk = true;
@@ -206,7 +206,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/wishlist")]
         public ActionResult<List<ProductData>> GetWishlistProducts(string username)
         {
-            var response= _logic.GetWishlistItems(username);
+            //var response= _logic.GetWishlistItems(username);
             var products = new List<ProductData>();
 
             var product1 = new ProductData()
@@ -231,7 +231,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/basket")]
         public ActionResult<List<ProductData>> GetBasketProducts(string username)
         {
-            var result = _logic.GetBasketItems(username);
+            //var result = _logic.GetBasketItems(username);
 
             var products = new List<ProductData>();
 
@@ -257,7 +257,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/pattern")]
         public ActionResult<List<ProductData>> GetSearchedProducts(string pattern)
         {
-            var result = _logic.GetSearchedItems(pattern);
+            //var result = _logic.GetSearchedItems(pattern);
 
             var products = new List<ProductData>();
 
@@ -283,7 +283,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/wishlist")]
         public ActionResult<WishlistResponse> AddItemToWishlist(string id, string username)
         {
-            var response = _logic.AddItemToWishlist(id,username);
+            //var response = _logic.AddItemToWishlist(id,username);
 
             return new WishlistResponse()
             {
@@ -295,7 +295,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/wishlist")]
         public ActionResult<WishlistResponse> RemoveItemFromWishlist(string id, string username)
         {
-            var response = _logic.RemoveItemFromWishlist(id,username);
+            //var response = _logic.RemoveItemFromWishlist(id,username);
             
             return new WishlistResponse()
             {
@@ -306,7 +306,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/basket")]
         public ActionResult<BasketResponse> AddItemToBasket(string id, string username,string size)
         {
-            var response = _logic.AddItemToBasket(id, username, size);
+            //var response = _logic.AddItemToBasket(id, username, size);
 
 
             return new BasketResponse()
@@ -318,7 +318,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/basket")]
         public ActionResult<BasketResponse> RemoveItemFromBasket(string id, string username,string size)
         {
-            var response = _logic.RemoveItemFromBasket(id,username,size);
+            //var response = _logic.RemoveItemFromBasket(id,username,size);
 
             return new BasketResponse()
             {
@@ -330,7 +330,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/products")]
         public ActionResult <ProductsResponse> RemoveProduct(string id)
         {
-            var response = _logic.RemoveProduct(id);
+            //var response = _logic.RemoveProduct(id);
             return new ProductsResponse() 
             { 
                 isOk = true 
@@ -342,7 +342,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/products")]
         public ActionResult<ProductsResponse> AddProduct([FromBody]ProductDataDTO productData)
         {
-            var response= _logic.AddProduct(productData);
+            //var response= _logic.AddProduct(productData);
             return new ProductsResponse()
             {
                 isOk = true
@@ -353,7 +353,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/products")]
         public ActionResult<ProductsResponse> UpdateProduct([FromBody]ProductDataDTO productData)
         {
-            var response = _logic.UpdateProduct(productData);
+            //var response = _logic.UpdateProduct(productData);
             return new ProductsResponse()
             {
                 isOk = true
@@ -364,7 +364,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/newOrder")]
         public ActionResult<ProductsResponse> ExecuteOrder([FromBody] OrderDTO orderData)
         {
-            var response = _logic.ExecuteOrder(orderData);
+            //var response = _logic.ExecuteOrder(orderData);
             return new ProductsResponse()
             {
                 isOk = true
@@ -375,7 +375,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/sizes")]
         public ActionResult<List<string>> GetProductSizes(string id)
         {
-            var response = _logic.GetProductSizes(id);
+            //var response = _logic.GetProductSizes(id);
 
             var sizes=new List<string>();
             sizes.Add("");
@@ -389,7 +389,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/password")]
         public ActionResult<string> UpdatePassword(string username, string password)
         {
-            var response = _logic.UpdatePassword(username, password);
+            //var response = _logic.UpdatePassword(username, password);
             return "Ok";
         }
 
@@ -397,7 +397,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/info")]
         public ActionResult<string> UpdateUserInfo(string username, [FromBody] UpdateInfoRequest info)
         {
-            var result = _logic.UpdateUserInfo(username, info);
+            //var result = _logic.UpdateUserInfo(username, info);
             return "Ok";
         }
 
@@ -405,6 +405,8 @@ namespace OnlineClothingShop.Controllers
         [Route("/cancel")]
         public ActionResult<string> CancelOrder(string username,string id)
         {
+            //var result = _logic.CancelOrder(username, id);
+
             return "Ok";
         }
 
@@ -412,6 +414,7 @@ namespace OnlineClothingShop.Controllers
         [Route("/return")]
         public ActionResult<string> ReturnProduct(string username, string idOrder, string idItem)
         {
+
             return username+" "+ idOrder + " "+idItem;
         }
 
