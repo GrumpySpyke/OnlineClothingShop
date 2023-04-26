@@ -7,6 +7,9 @@ namespace OnlineClothingShop.Mapper
 {
     public class ObjectMapper : IObjectMapper
     {
+
+          
+
         public UserData MapUserData(SqlDataReader data)
         {
             data.Read();

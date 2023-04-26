@@ -25,7 +25,11 @@ namespace OnlineClothingShop.Controllers
             _logic = logic;
         }
 
-        [HttpGet]
+        [HttpGet] // tipul metodei (Get/ - list data 
+                  // Post/ - insert
+                  // Put/ -update
+                  // Delete - stergere
+                  // )
         [Route("/orders")]
         public ActionResult<List<OrderDTO>> GetOrders(string username)
         {

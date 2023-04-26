@@ -50,11 +50,11 @@ namespace OnlineClothingShop
         {
             var response = new AuthenticateUserResponse();
 
-            var authValues = _repository.AuthenticateUser(username, password);
+            var authValues = _repository.AuthenticateUser(username, password); // apel la baza de date 
             response.isOk = authValues.isOk;
             if (authValues.isOk)
             {
-                var userData = _mapper.MapUserData(authValues.data);
+                var userData = _mapper.MapUserData(authValues.data); // maparea datelor 
                 response.userData = userData;
             }
             return response;

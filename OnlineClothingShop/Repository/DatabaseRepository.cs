@@ -29,21 +29,21 @@ namespace OnlineClothingShop.Repository
         #region public methods
         public AuthenticateUserValues AuthenticateUser(string username, string password)
         {
-            var connection = OpenConnection();
+            var connection = OpenConnection(); // crearea si deschiderea conexiunii
             var command = new SqlCommand();
-            var query = "Select username,password from Users where username='" + username + "' AND password='" + password + "'";
+            var query = "Select username,password from Users where username='" + username + "' AND password='" + password + "'"; // se defineste operatia ce trebuie efectuata
 
             command.Connection = connection;
             command.CommandText = query;
 
             var response = new AuthenticateUserValues();
-            var data = command.ExecuteReader();
+            var data = command.ExecuteReader(); // se executa queryul
 
             if (!data.Read())
             {
                 response.isOk = false;
 
-                CloseConnection(connection);
+                CloseConnection(connection); // se inchide conexiunea
                 return response;
             }
 
@@ -51,7 +51,7 @@ namespace OnlineClothingShop.Repository
             response.data = data;
 
             CloseConnection(connection);
-            return response;
+            return response; // se returneaza datele 
         }
 
         public UserData GetUserData(string username)
@@ -475,8 +475,8 @@ namespace OnlineClothingShop.Repository
 
         private SqlConnection OpenConnection()
         {
-            var connection = new SqlConnection(_databaseOptions.connectionString);
-            connection.Open();
+            var connection = new SqlConnection(_databaseOptions.connectionString); // crearea unei noi conexiuni 
+            connection.Open(); // deschiderea conexiunii 
             return connection; 
         }
         private void CloseConnection( SqlConnection connection)
